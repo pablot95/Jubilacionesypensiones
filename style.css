@@ -969,6 +969,7 @@ section {
 }
 
 .field input,
+.field select,
 .field textarea {
   font-family: var(--font-body);
   border: 1px solid var(--color-line);
