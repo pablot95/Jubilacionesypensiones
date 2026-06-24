@@ -38,7 +38,7 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
 
   try {
     await signInWithEmailAndPassword(auth, email, pass);
-    window.location.replace('dashboard.html');
+    window.location.replace('admin/dashboard.html');
   } catch (err) {
     errEl.textContent = MENSAJES[err.code] || 'Error al iniciar sesión. Intentá de nuevo.';
     errEl.classList.remove('hidden');
