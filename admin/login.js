@@ -14,7 +14,7 @@ const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 onAuthStateChanged(auth, user => {
-  if (user) window.location.replace('dashboard.html');
+  if (user) window.location.replace('admin/dashboard.html');
 });
 
 const MENSAJES = {
