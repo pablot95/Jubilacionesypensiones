@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Admin Jubilaciones Misiones</title>
+  <link rel="icon" href="../images/logonavyfavicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <header class="admin-header">
+    <div class="admin-header-brand">
+      <img src="../images/logonavyfavicon.png" alt="Logo">
+      <span>Jubilaciones Misiones · Admin</span>
+    </div>
+    <div class="admin-header-right">
+      <span id="userEmail"></span>
+      <button class="btn-admin btn-ghost btn-sm" id="logoutBtn">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+
+    <div class="admin-tabs">
+      <button class="tab-btn active" data-tab="consultas">Consultas</button>
+      <button class="tab-btn" data-tab="turnos">Turnos disponibles</button>
+    </div>
+
+    <!-- ── TAB CONSULTAS ───────────────────────────────── -->
+    <div class="tab-panel active" id="tab-consultas">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem">
+          <h2 class="card-title" style="margin:0">Consultas recibidas</h2>
+          <button class="btn-admin btn-ghost btn-sm" id="reloadConsultas">↺ Actualizar</button>
+        </div>
+        <div class="filter-bar" id="filtroEstado">
+          <button class="filter-btn active" data-filtro="todos">Todos</button>
+          <button class="filter-btn" data-filtro="pendiente">Pendientes</button>
+          <button class="filter-btn" data-filtro="confirmado">Confirmados</button>
+          <button class="filter-btn" data-filtro="completado">Completados</button>
+          <button class="filter-btn" data-filtro="cancelado">Cancelados</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha solicitud</th>
+                <th>Turno</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Motivo</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="consultasBody">
+              <tr class="loading-row"><td colspan="7"><span class="spinner-sm"></span>Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB TURNOS ──────────────────────────────────── -->
+    <div class="tab-panel" id="tab-turnos">
+
+      <div class="card">
+        <h2 class="card-title">Cargar semana completa</h2>
+        <p style="font-size:.85rem;color:#6b7280;margin-bottom:1rem">
+          Genera todos los horarios estándar (Lun–Vie, 07:00–11:00 y 14:00–17:00) para la semana elegida.
+        </p>
+        <div class="semana-form">
+          <div class="field">
+            <label for="semanaIso">Lunes de la semana</label>
+            <input type="date" id="semanaIso">
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn-admin btn-navy" id="cargarSemanaBtn">Cargar semana completa</button>
+          </div>
+        </div>
+        <p id="semanaMsg" style="margin-top:.75rem;font-size:.82rem;color:#16a34a;display:none"></p>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Agregar turno individual</h2>
+        <div class="add-slot-form">
+          <div class="field">
+            <label for="slotSemanaIso">Lunes de la semana</label>
+            <input type="date" id="slotSemanaIso">
+          </div>
+          <div class="field">
+            <label for="slotDia">Día</label>
+            <select id="slotDia">
+              <option value="0">Lunes</option>
+              <option value="1">Martes</option>
+              <option value="2">Miércoles</option>
+              <option value="3">Jueves</option>
+              <option value="4">Viernes</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="slotHora">Hora</label>
+            <select id="slotHora">
+              <option>07:00</option><option>08:00</option><option>09:00</option>
+              <option>10:00</option><option>11:00</option><option>14:00</option>
+              <option>15:00</option><option>16:00</option><option>17:00</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn-admin btn-gold" id="addSlotBtn">+ Agregar</button>
+          </div>
+        </div>
+        <p id="slotMsg" style="font-size:.82rem;color:#16a34a;display:none"></p>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem">
+          <h2 class="card-title" style="margin:0">Turnos cargados</h2>
+          <button class="btn-admin btn-ghost btn-sm" id="reloadSlots">↺ Actualizar</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Semana</th>
+                <th>Día</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="slotsBody">
+              <tr class="loading-row"><td colspan="6"><span class="spinner-sm"></span>Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>

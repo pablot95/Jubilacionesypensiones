@@ -58,7 +58,7 @@
         <a href="#contacto">Contacto</a>
       </nav>
       <div class="header-actions">
-        <a href="https://wa.me/5493764663346" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Pedí tu turno</a>
+        <a href="#turnos" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Pedí tu turno</a>
         <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
@@ -210,25 +210,92 @@
       <div class="container">
         <div class="section-head anim-up">
           <p class="eyebrow">Agenda de Turnos</p>
-          <h2>Reservá tu consulta en el horario que prefieras</h2>
-          <p class="section-lead">Elegí el día y horario que mejor se adapte a vos. Nuestro equipo confirmará la disponibilidad y se pondrá en contacto antes de tu visita.</p>
+          <h2>Reservá tu consulta</h2>
+          <p class="section-lead">Completá tus datos y elegí el día y horario que mejor se adapte a vos. Un asesor confirmará tu turno a la brevedad.</p>
         </div>
-        <div class="agenda-box anim-row">
-          <div class="agenda-calendar">
-            <div class="agenda-calendar-head">
-              <button type="button" class="agenda-nav" id="agendaPrev" aria-label="Semana anterior">‹</button>
-              <h3 id="agendaSemana">Semana del 15 al 19 de junio</h3>
-              <button type="button" class="agenda-nav" id="agendaNext" aria-label="Semana siguiente">›</button>
+
+        <div class="wizard-steps anim-up">
+          <div class="wizard-step active" id="step1Ind">
+            <span class="step-num">1</span>
+            <span class="step-lbl">Tus datos</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="wizard-step" id="step2Ind">
+            <span class="step-num">2</span>
+            <span class="step-lbl">Elegí tu horario</span>
+          </div>
+        </div>
+
+        <div class="wizard-panel" id="wizardPanel1">
+          <form class="turno-form anim-row" id="formTurnoDatos" novalidate>
+            <div class="form-row">
+              <div class="field">
+                <label for="tNombre">Nombre y apellido *</label>
+                <input type="text" id="tNombre" name="nombre" placeholder="Tu nombre completo" required>
+              </div>
+              <div class="field">
+                <label for="tTelefono">Teléfono *</label>
+                <input type="tel" id="tTelefono" name="telefono" placeholder="Ej: 376 4000000" required>
+              </div>
             </div>
-            <div class="agenda-grid" id="agendaGrid"></div>
-          </div>
-          <div class="agenda-summary">
-            <h3>Tu turno</h3>
-            <p id="agendaResumen">Seleccioná un día y un horario disponible para reservar tu consulta.</p>
-            <button type="button" class="btn btn-primary btn-block" id="agendaConfirmar" disabled>Confirmar turno</button>
-            <p class="agenda-aviso">Esta es una vista demo: la reserva no se procesa de manera real, un asesor se comunicará para coordinar tu turno.</p>
+            <div class="field">
+              <label for="tEmail">Email</label>
+              <input type="email" id="tEmail" name="email" placeholder="tu@email.com">
+            </div>
+            <div class="field">
+              <label for="tMotivo">Motivo de consulta *</label>
+              <select id="tMotivo" name="motivo" required>
+                <option value="">Seleccioná el motivo...</option>
+                <option value="Iniciar jubilación">Iniciar jubilación</option>
+                <option value="Reajuste de haberes">Reajuste de haberes</option>
+                <option value="Pensión por fallecimiento">Pensión por fallecimiento</option>
+                <option value="Trámites ANSES / IPS">Trámites ANSES / IPS</option>
+                <option value="Retiro por invalidez">Retiro por invalidez</option>
+                <option value="Reconocimiento de servicios">Reconocimiento de servicios</option>
+                <option value="Consulta general">Consulta general</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Siguiente: elegir horario →</button>
+          </form>
+        </div>
+
+        <div class="wizard-panel hidden" id="wizardPanel2">
+          <div class="agenda-box anim-row">
+            <div class="agenda-calendar">
+              <div class="agenda-calendar-head">
+                <button type="button" class="agenda-nav" id="agendaPrev" aria-label="Semana anterior">‹</button>
+                <h3 id="agendaSemana">Cargando disponibilidad...</h3>
+                <button type="button" class="agenda-nav" id="agendaNext" aria-label="Semana siguiente">›</button>
+              </div>
+              <div class="agenda-loading" id="agendaLoading">
+                <div class="loading-spinner"></div>
+                <p>Cargando turnos disponibles...</p>
+              </div>
+              <div class="agenda-grid" id="agendaGrid" style="display:none"></div>
+              <div class="agenda-empty hidden" id="agendaEmpty">
+                <p>No hay turnos disponibles por el momento. Escribinos por <a href="https://wa.me/5493764663346" target="_blank" rel="noopener">WhatsApp</a> para coordinar.</p>
+              </div>
+            </div>
+            <div class="agenda-summary">
+              <h3>Tu turno</h3>
+              <div class="turno-resumen-datos" id="turnoResumenDatos"></div>
+              <p id="agendaResumen">Seleccioná un día y horario disponible.</p>
+              <button type="button" class="btn btn-primary btn-block" id="agendaConfirmar" disabled>Confirmar turno</button>
+              <button type="button" class="btn btn-soft btn-block" id="agendaVolver" style="margin-top:.75rem">← Volver a mis datos</button>
+            </div>
           </div>
         </div>
+
+        <div class="wizard-panel hidden turno-success" id="wizardSuccess">
+          <div class="success-box">
+            <div class="success-check">✓</div>
+            <h3>¡Turno solicitado!</h3>
+            <p id="successMsg">Tu solicitud fue enviada correctamente.</p>
+            <p class="agenda-aviso" style="margin-top:.75rem">Un asesor confirmará tu reserva a la brevedad por teléfono o WhatsApp.</p>
+            <a href="https://wa.me/5493764663346" target="_blank" rel="noopener" class="btn btn-gold" style="margin-top:1.5rem">Escribir por WhatsApp</a>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -394,6 +461,6 @@
     </footer>
   </div>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
